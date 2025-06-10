@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="imagen.png">
+    <title>Empleados</title>
+</head>
+<body>
+
+    <!--menu de navegacion-->
+    <div class="menu">
+        <a href="principal.html">menu principal</a>
+        <a href="pasteles.html">Pasteles</a>
+        <a href="pedidos.html">Pedidos</a>
+        <a href="index.html">Cerrar Sesion</a>
+    </div>
+
+    <h2>Lista de empleados</h2>
+
+    <div class="agregar-pastel-container">
+        <h3>Agregar empleado</h3>
+        <form id="formPastel" class="form-horizontal">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="text" id="rol" placeholder="Rol" required min="0">
+            <button type="submit">Agregar</button>
+        </form>
+    </div>
+    <!--tabla de pasteles agregados-->
+
+    <div class="tabla-container">
+        <table id="tablaPasteles">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        //funcion para cargar y mostrar pasteles
+        async function cargarEmpleado(){
+            const res = await fetch('/api/empleados');
+            const empleados = await res.json();
+            const tbody = document .querySelector('#tablaPasteles tbody');
+            tbody.innerHTML = empleados.map(p => `
+            <tr>
+                <td>${p.nombre}</td>
+                <td>${p.rol}</td>
+                <td>
+                    <button class="btn-eliminar"
+                    onclick = "eliminarEmpleado('${p._id}')">Eliminar
+                    </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        //funcion para eliminar pastel preguntado al usuario
+        async function eliminarEmpleado(id){
+            const confirmar = confirm("¿Estas seguro de eliminar?");
+            if(!confirmar)return;
+            await fetch(`/api/empleados/${id}`, {method:'DELETE'});
+            cargarEmpleado();
+
+        }
+
+        //MANEJAR EL EVENTO SUBMIT
+        document.getElementById('formPastel').addEventListener('submit', async (e) =>{
+            e.preventDefault();
+            const nombre =document.getElementById('nombre').value;
+            const rol =document.getElementById('rol').value;
+            await fetch ('/api/empleados',{
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({nombre, rol})
+
+            });
+            document.getElementById('formPastel').reset;
+            cargarEmpleado();
+
+        });
+        cargarEmpleado();
+        window.eliminarEmpleado = eliminarEmpleado;
+    </script>
+
+
+
+
+
+</body>
+</html>
+
+
+<style>
+    /* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* Menú de navegación */
+.menu {
+    background-color: #a259ff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Encabezado principal */
+h2 {
+    text-align: center;
+    color: #5e3ea1;
+    margin-top: 20px;
+}
+
+/* Sección para agregar pasteles */
+.agregar-pastel-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.agregar-pastel-container h3 {
+    margin-top: 0;
+    color: #a259ff;
+}
+
+.agregar-pastel-container input,
+.agregar-pastel-container button {
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.agregar-pastel-container button {
+    background-color: #a259ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.agregar-pastel-container button:hover {
+    background-color: #8e44ec;
+}
+
+/* Tabla de pasteles */
+.tabla-container {
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #a259ff;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Botón de eliminar */
+.btn-eliminar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-eliminar:hover {
+    background-color: #c0392b;
+}
+</style>

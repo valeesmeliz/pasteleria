@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Bienvenido</title>
+        <link rel="icon" type="image/png" href="imagen.png">
+
+    </head>
+    <body>
+        <video autoplay muted loop id="bg-video">
+            <source src="pasteleria.mp4" type="video/mp4" />
+        </video>
+
+        <div class="contenedor">
+            <div class="branding">
+                <img src="imagen.png" alt="Logo de Pastelería Marcanti" />
+                <p>PASTELERIA DE CALIDAD</p>
+            </div>
+                    <nav class="menu">
+                        <ul>
+                            <li><a href="pasteles.html">Pasteles</a></li>
+                            <li><a href="pedidos.html">Pedidos</a></li>
+                            <li><a href="empleados.html">Empleados</a></li>
+                            <li><a href="index.html">Cerrar Sesión</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            
+        
+    </body>
+</html>
+<style>
+   
+    *{
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+    }
+    body.html{
+        height: 100%;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    #bg-video{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        filter: brightness(0.7);
+    }
+    .contenedor{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+    }
+    .branding img{
+        width: 95%;
+    }
+    .branding span{
+        font-family: 'Pacifico', cursive;
+        font-size: 4.5rem;
+    }
+    .branding p{
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        text-align: center;
+    }
+    .menu{
+        background: white;
+        padding: 2rem 3rem;
+        border-radius: 30px;
+        color: black;
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .menu ul{
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+    }
+    .menu a{
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-size: 1rem;
+        transition: color 0.3s;
+    }
+    .menu a:hover{
+        color:#e621bb;
+    }
+</style>
